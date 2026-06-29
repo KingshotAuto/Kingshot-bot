@@ -190,6 +190,7 @@ activation.dat.env
 
 # Personal/local tooling (not part of the project)
 claude-dotfiles
+CLAUDE.md
 
 # Stray "/dev/null" redirect artifacts created on Windows
 dev/

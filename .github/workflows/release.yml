@@ -37,11 +37,20 @@ jobs:
       - name: Determine version
         id: ver
         shell: bash
+        env:
+          # Pass untrusted inputs through env so they are never templated into the script body.
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
           else
-            VERSION="${GITHUB_REF_NAME#v}"
+            VERSION="${REF_NAME#v}"
+          fi
+          # Reject anything that is not a strict numeric x.y.z (also prevents broken assembly versions).
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version '$VERSION' - use numeric x.y.z, e.g. 0.1.0" >&2
+            exit 1
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
@@ -52,21 +61,24 @@ jobs:
 
       - name: Build release package
         shell: pwsh
-        run: ./Build-Release.ps1 -Version ${{ steps.ver.outputs.version }}
+        env:
+          RELEASE_VERSION: ${{ steps.ver.outputs.version }}
+        run: ./Build-Release.ps1 -Version $env:RELEASE_VERSION
 
       - name: Create GitHub Release
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ steps.ver.outputs.version }}
+          RELEASE_TAG: ${{ steps.ver.outputs.tag }}
         run: |
-          VERSION="${{ steps.ver.outputs.version }}"
-          TAG="${{ steps.ver.outputs.tag }}"
-          ZIP="dist/KingshotAuto-v${VERSION}-win-x64.zip"
-          SETUP="dist/Installers/KingshotAuto-Setup-v${VERSION}.exe"
-          FILES="$ZIP"
-          if [ -f "$SETUP" ]; then FILES="$FILES $SETUP"; fi
-          echo "Attaching: $FILES"
-          gh release create "$TAG" $FILES \
+          ZIP="dist/KingshotAuto-v${RELEASE_VERSION}-win-x64.zip"
+          SETUP="dist/Installers/KingshotAuto-Setup-v${RELEASE_VERSION}.exe"
+          FILES=( "$ZIP" )
+          [ -f "$SETUP" ] && FILES+=( "$SETUP" )
+          echo "Attaching: ${FILES[*]}"
+          NOTES=$(printf 'Automated build of KingshotAuto.\n\n**Downloads**\n- `KingshotAuto-v%s-win-x64.zip` - portable, self-contained (no .NET install needed). Extract and run `KingshotAuto.exe` **as Administrator**.\n- `KingshotAuto-Setup-v%s.exe` - Windows installer (shortcuts + VC++ runtime).\n\nRequires LDPlayer 9 to actually drive the game. This is early software - not every task works yet. See the README and please report issues.' "$RELEASE_VERSION" "$RELEASE_VERSION")
+          gh release create "$RELEASE_TAG" "${FILES[@]}" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "KingshotAuto $TAG" \
-            --notes $'Automated build of KingshotAuto.\n\n**Downloads**\n- `KingshotAuto-v'"$VERSION"$'-win-x64.zip` - portable, self-contained (no .NET install needed). Extract and run `KingshotAuto.exe` **as Administrator**.\n- `KingshotAuto-Setup-v'"$VERSION"$'.exe` - Windows installer (sets up shortcuts and the VC++ runtime).\n\nRequires LDPlayer 9 to actually drive the game. This is early software - not every task works yet. See the README and please report issues.'
+            --title "KingshotAuto $RELEASE_TAG" \
+            --notes "$NOTES"
