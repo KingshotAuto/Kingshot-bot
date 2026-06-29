@@ -1,0 +1,72 @@
+name: Release
+
+# Cut a downloadable release in one of two ways:
+#   1. Push a version tag:   git tag v0.1.0 && git push origin v0.1.0
+#   2. Actions tab -> Release -> "Run workflow" -> enter a version (e.g. 0.1.0)
+#
+# Use 3-part numeric versions (e.g. 0.1.0) - they are baked into the
+# assembly/file version and the installer, which require numeric values.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. 0.1.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Determine version
+        id: ver
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Releasing version $VERSION"
+
+      - name: Install NSIS (for the Windows installer)
+        run: choco install nsis -y --no-progress
+
+      - name: Build release package
+        shell: pwsh
+        run: ./Build-Release.ps1 -Version ${{ steps.ver.outputs.version }}
+
+      - name: Create GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          TAG="${{ steps.ver.outputs.tag }}"
+          ZIP="dist/KingshotAuto-v${VERSION}-win-x64.zip"
+          SETUP="dist/Installers/KingshotAuto-Setup-v${VERSION}.exe"
+          FILES="$ZIP"
+          if [ -f "$SETUP" ]; then FILES="$FILES $SETUP"; fi
+          echo "Attaching: $FILES"
+          gh release create "$TAG" $FILES \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "KingshotAuto $TAG" \
+            --notes $'Automated build of KingshotAuto.\n\n**Downloads**\n- `KingshotAuto-v'"$VERSION"$'-win-x64.zip` - portable, self-contained (no .NET install needed). Extract and run `KingshotAuto.exe` **as Administrator**.\n- `KingshotAuto-Setup-v'"$VERSION"$'.exe` - Windows installer (sets up shortcuts and the VC++ runtime).\n\nRequires LDPlayer 9 to actually drive the game. This is early software - not every task works yet. See the README and please report issues.'
