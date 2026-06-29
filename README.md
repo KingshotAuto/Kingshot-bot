@@ -44,7 +44,7 @@ Additional capabilities:
 You will need the following on a 64-bit Windows machine:
 
 - **Windows 10 or 11 (x64)**
-- **.NET 8 SDK** — <https://dotnet.microsoft.com/download/dotnet/8.0>
+- **.NET 10 SDK** — <https://dotnet.microsoft.com/download/dotnet/10.0>
 - **Git with Git LFS** — the native OCR DLLs under `runtimes/win-x64/native/` and `tools/VC_redist.x64.exe` are stored via Git LFS. **Without git-lfs they clone as tiny pointer files and Tesseract OCR fails at runtime.** Install Git LFS once with `git lfs install` *before* cloning (or run `git lfs pull` afterwards).
 - **LDPlayer 9 (64-bit)** emulator — <https://www.ldplayer.net/>
 - **Microsoft Visual C++ 2015–2022 x64 Redistributable** — required by the OpenCV / Tesseract native libraries

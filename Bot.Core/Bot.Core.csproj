@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -45,15 +45,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdvancedSharpAdbClient" Version="3.3.13" />
-    <PackageReference Include="OpenCVSharp4.Extensions" Version="4.11.0.20250507" />
-    <PackageReference Include="OpenCVSharp4.Windows" Version="4.11.0.20250507" />
-    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="AdvancedSharpAdbClient" Version="3.6.16" />
+    <PackageReference Include="OpenCVSharp4" Version="4.13.0.20260627" />
+    <PackageReference Include="OpenCVSharp4.Extensions" Version="4.13.0.20260627" />
+    <PackageReference Include="OpenCVSharp4.runtime.win" Version="4.13.0.20260627" />
+    <PackageReference Include="Serilog" Version="4.3.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Map" Version="2.0.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.9" />
     <PackageReference Include="Tesseract" Version="5.2.0" />
   </ItemGroup>
   

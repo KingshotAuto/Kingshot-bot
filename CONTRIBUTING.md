@@ -11,7 +11,7 @@ Please use **[Issues](https://github.com/KingshotAuto/Kingshot-bot/issues)** to 
 See the [Prerequisites](README.md#prerequisites) and [Quick Start](README.md#quick-start) sections of the README for the full list. In short, you need:
 
 - Windows 10/11 (x64)
-- .NET 8 SDK
+- .NET 10 SDK
 - **Git with Git LFS** — run `git lfs install` *before* cloning, or `git lfs pull` afterwards. Without LFS the native OCR DLLs clone as pointer files and Tesseract fails at runtime.
 - LDPlayer 9 (64-bit), the VC++ 2015–2022 x64 Redistributable, and Administrator rights to run the app.
 

@@ -7,7 +7,7 @@
 # the output.)
 #
 # Requirements:
-#   - .NET 8 SDK
+#   - .NET 10 SDK
 #   - NSIS (https://nsis.sourceforge.io/) only if you want the installer;
 #     otherwise pass -SkipInstaller.
 #
@@ -31,7 +31,7 @@ Write-Host "=====================================" -ForegroundColor Cyan
 # Paths
 $rootDir = Get-Location
 $guiProject = Join-Path $rootDir "Bot.GUI\Bot.GUI.csproj"
-$publishDir = Join-Path $rootDir "Bot.GUI\bin\Release\net8.0-windows\win-x64\publish"
+$publishDir = Join-Path $rootDir "Bot.GUI\bin\Release\net10.0-windows\win-x64\publish"
 $outputDir = Join-Path $rootDir "dist"
 $packageName = "KingshotAuto-v$Version-win-x64"
 $packageDir = Join-Path $outputDir $packageName
