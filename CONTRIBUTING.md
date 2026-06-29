@@ -36,7 +36,7 @@ dotnet run --project Bot.GUI/Bot.GUI.csproj
 dotnet test
 ```
 
-Maintainers can produce a portable packaged build with `./Build-Release.ps1 -Version 0.0.0-dev` (add `-SkipInstaller` to skip the NSIS installer; output goes to `dist/`).
+Maintainers can produce a portable packaged build with `./Build.ps1 -Version 0.1.0` (add `-SkipInstaller` to skip the NSIS installer; output goes to `dist/`).
 
 Please make sure `dotnet build` and `dotnet test` pass before opening a PR.
 

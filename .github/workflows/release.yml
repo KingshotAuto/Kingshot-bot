@@ -63,7 +63,7 @@ jobs:
         shell: pwsh
         env:
           RELEASE_VERSION: ${{ steps.ver.outputs.version }}
-        run: ./Build-Release.ps1 -Version $env:RELEASE_VERSION
+        run: ./Build.ps1 -Version $env:RELEASE_VERSION
 
       - name: Create GitHub Release
         shell: bash

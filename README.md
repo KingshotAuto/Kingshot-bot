@@ -79,7 +79,7 @@ Maintainers can produce a portable packaged build:
 
 ```sh
 # Produces a portable zip in dist/ ; add -SkipInstaller to skip the NSIS installer
-./Build-Release.ps1 -Version 0.0.0-dev
+./Build.ps1 -Version 0.1.0
 ```
 
 ## Configuration
