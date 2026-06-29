@@ -1,0 +1,85 @@
+{
+  "totalRunningInstances": 2,
+  "maxConcurrentInstances": 3,
+  "instanceStartupDelayMs": 3000,
+  "enableResourceThrottling": true,
+  "accounts": [
+    {
+      "accountName": "Main Account",
+      "instanceNumber": 0,
+      "taskSequence": [],
+      "enabledTasks": [2, 3, 4, 9],
+      "taskSettings": {},
+      "farmingTargets": [
+        { "resourceType": 0, "level": 6 },
+        { "resourceType": 1, "level": 6 }
+      ],
+      "isEnabled": true,
+      "customConfigPath": null,
+      "AutoHuntSettings": {
+        "useEqualize": true
+      },
+      "autoRallySettings": {
+        "autoJoin": false,
+        "autoJoinMinHours": 3.0,
+        "autoJoinCheckIntervalHours": 1.0
+      },
+      "autoBuildSettings": {
+        "MaxSpeedupMinutes": 30,
+        "EnableAutoSpeedup": true
+      },
+      "autoShieldSettings": {
+        "UseRechargeableShield": true,
+        "SelectedBackupShield": 0,
+        "ShieldOverlapMinutes": 30,
+        "VerboseLogging": false
+      },
+      "farmingSettings": {
+        "maxFarmingMarches": 0
+      },
+      "troopTrainingSettings": {
+        "trainLevel1Only": false
+      },
+      "farmingBoostSettings": {
+        "enableGatherBoost": false,
+        "selectedBoostDuration": 8
+      },
+      "allianceTechnologySettings": {
+        "waitHours": 10
+      },
+      "conquestCollectSettings": {
+        "waitHours": 4
+      },
+      "doNotShutdown": false
+    }
+  ],
+  "cycleManagement": {
+    "minWaitTimeBetweenCyclesMinutes": 20,
+    "maxWaitTimeBetweenCyclesMinutes": 40,
+    "shutdownEmulatorsAfterCycle": false,
+    "maxCycles": 0,
+    "maxTroopTrainWaitMinutes": 30,
+    "persistentAccountWaitMinutes": 0
+  },
+  "performance": {
+    "afterClickDelayMs": 1000,
+    "betweenRetriesDelayMs": 1500,
+    "betweenErrorRetriesDelayMs": 2500,
+    "betweenTasksDelayMs": 2000,
+    "instanceStartupBatchSize": 2,
+    "instanceStartupBatchDelayMs": 1500,
+    "screenshotCacheTimeoutMs": 500,
+    "maxConcurrentScreenshots": 6,
+    "statusCacheTtlSeconds": 2
+  },
+  "AutoRestart": true,
+  "LDPlayerPath": "C:\\LDPlayer\\LDPlayer9",
+  "DNPlayerPath": "C:\\LDPlayer\\LDPlayer9",
+  "UseDNPlayer": false,
+  "LogLevel": "Info",
+  "SaveDebugVisuals": true,
+  "ScreenshotPath": "logs/screenshots",
+  "MaxRetries": 3,
+  "RetryDelaySeconds": 5,
+  "CustomSettings": {}
+}

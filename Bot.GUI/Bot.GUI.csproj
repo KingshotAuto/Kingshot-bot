@@ -1,0 +1,123 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bot.Core\Bot.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+  </ItemGroup>
+
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- Version will be set by build script via -p:Version parameter -->
+    <Authors>KingshotAuto</Authors>
+    <Product>KingshotAuto</Product>
+    <Description>Kingshot Game Automation Tool</Description>
+    <Copyright>Copyright © 2025</Copyright>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>KingshotAuto</AssemblyName>
+    <ApplicationIcon>Resources\kingshot.ico</ApplicationIcon>
+    <NoWarn>$(NoWarn);CS8600;CS8602;CS8603</NoWarn>
+    
+    <!-- Build Configuration -->
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    
+    <!-- Optimize build output - only include English resources -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    
+    <!-- Additional build optimizations -->
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    
+    <!-- Update-specific metadata -->
+    <Title>KingshotAuto</Title>
+    <Company>KingshotAuto</Company>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+  </PropertyGroup>
+
+  <!-- Release-specific optimizations -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ErrorReport>none</ErrorReport>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\kingshot.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="app.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="KingshotAuto.runtimeconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <!-- Custom target to exclude conflicting files before publish -->
+  <Target Name="ExcludeConflictingFiles" BeforeTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <!-- Remove all Tesseract native files from NuGet package -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.NuGetPackageId)' == 'Tesseract' and ('%(ResolvedFileToPublish.AssetType)' == 'native' or '%(ResolvedFileToPublish.AssetType)' == 'runtime')" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'runtimes/win-x64/native/leptonica-1.82.0.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'runtimes/win-x64/native/tesseract50.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'runtimes/win-x86/native/leptonica-1.82.0.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'runtimes/win-x86/native/tesseract50.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'x64/leptonica-1.82.0.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'x64/tesseract50.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'x86/leptonica-1.82.0.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'x86/tesseract50.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'leptonica-1.82.0.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'tesseract50.dll'" />
+      <!-- Remove duplicate runtime config -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'KingshotAuto.runtimeconfig.json' and '%(ResolvedFileToPublish.SourcePath)' != '$(MSBuildProjectDirectory)\KingshotAuto.runtimeconfig.json'" />
+      
+      <!-- Remove build artifacts and temporary files for cleaner output -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'cs/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'de/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'es/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'fr/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'it/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'ja/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'ko/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'pl/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'pt-BR/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'ru/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'tr/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'zh-Hans/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'zh-Hant/Microsoft.Extensions.DependencyInjection.resources.dll'" />
+      
+      <!-- Remove all satellite resource assemblies using pattern matching -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' != '' and $([System.Text.RegularExpressions.Regex]::IsMatch('%(ResolvedFileToPublish.RelativePath)', '^[a-z]{2}(-[A-Z]{2})?[/\\].*\.resources\.dll$'))" />
+      
+      <!-- Remove additional build artifacts -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').EndsWith('.pdb')) and '$(Configuration)' == 'Release'" />
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').EndsWith('.xml'))" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <Page Update="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+
+</Project>

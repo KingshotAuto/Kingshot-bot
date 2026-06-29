@@ -1,0 +1,13 @@
+{
+  "runtimeOptions": {
+    "tfm": "net8.0",
+    "configProperties": {
+      "System.Runtime.Loader.UseRidGraph": true
+    },
+    "additionalProbingPaths": [
+      ".",
+      "x64",
+      "x86"
+    ]
+  }
+}

@@ -1,0 +1,195 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ist/
+[Oo]utput/
+**/[Bb]in/
+**/[Oo]bj/
+**/[Dd]ist/
+**/[Oo]utput/
+
+# temp
+wosbot-master
+GnBots
+
+# Logs
+logs/
+*.log
+
+# Data files
+data/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Build-related
+/obj/
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+*.cache
+**/[Rr]elease/
+**/[Dd]ebug/
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.FileListAbsolute.txt
+*.sourcelink.json
+apphost.exe
+
+# But don't ignore tessdata and templates - these are required
+!tessdata/
+!tessdata/**
+!templates/
+!templates/**
+
+# Include native runtime dependencies (Tesseract/Leptonica DLLs)
+!runtimes/
+!runtimes/win-x64/
+!runtimes/win-x64/native/
+!runtimes/win-x64/native/*.dll
+!runtimes/win-x86/
+!runtimes/win-x86/native/
+!runtimes/win-x86/native/*.dll
+
+# Tools and redistributables - but keep VC redistributable
+# tools/
+!tools/VC_redist.x64.exe
+*.redist.exe
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# User-specific files and configs
+configs/default_config.json
+configs/license.json
+**/configs/*.json
+*.user.json
+
+# But include example/template configs
+!configs/default_config.example.json
+!configs/README.md
+
+# Tesseract training data (if it should be downloaded separately)
+# Uncomment if you want users to download these separately
+# tessdata/*.traineddata
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Build and Release Folders
+[Bb]uild/
+[Rr]eleases/
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+
+# Local History for Visual Studio
+.localhistory/
+
+# Build artifacts and packages
+dist/
+version.json
+*.zip
+
+# Installer temporary files
+Installer/*-Temp.nsi
+Installer/License.txt
+
+# Update packages
+KingshotAuto-v*.zip
+KingshotAuto-Setup*.exe
+
+# Claude Code
+.claude/settings.local.json
+
+# Application logs and error files
+xaml_error_details.txt
+
+# Temporary updater scripts
+update_*.bat
+updater_*.ps1
+
+# Security and credentials
+r2-config.json
+*.key
+*.pfx
+*.p12
+appsettings.Production.json
+secrets.json
+
+# License and activation files (legacy runtime files from the old build)
+license.json
+activation.dat.env
+.env
+
+# Personal/local tooling (not part of the project)
+claude-dotfiles
+
+# Stray "/dev/null" redirect artifacts created on Windows
+dev/

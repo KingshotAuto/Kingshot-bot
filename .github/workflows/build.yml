@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore BotApp.sln
+
+      - name: Build
+        run: dotnet build BotApp.sln -c Debug --no-restore
+
+      - name: Test
+        continue-on-error: true
+        run: dotnet test BotApp.sln -c Debug --no-build --verbosity normal
